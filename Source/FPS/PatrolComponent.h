@@ -3,21 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TP_ThirdPerson/TP_ThirdPersonCharacter.h"
-#include "PatrollingGuard.generated.h"
+#include "GameFramework/Actor.h"
+#include "PatrolComponent.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class FPS_API APatrollingGuard : public ATP_ThirdPersonCharacter
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class FPS_API UPatrolComponent : public UActorComponent
 {
 	GENERATED_BODY()
 	
 private:
 	UPROPERTY(EditInstanceOnly, Category = "Patrol Route")
 		TArray<AActor*> PatrolPointsCPP;
-	
-public: 
+
+public:
 	TArray<AActor*> GetPatrolPoints();
+	
 };

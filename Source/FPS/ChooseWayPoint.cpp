@@ -3,14 +3,16 @@
 #include "ChooseWayPoint.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
-#include "PatrollingGuard.h"
+#include "PatrolComponent.h"
 
 
 EBTNodeResult::Type UChooseWayPoint::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	auto AIController = OwnerComp.GetAIOwner();
 	auto ControlledPawn = AIController->GetPawn();
-	auto PatrolPoints = Cast<APatrollingGuard>(ControlledPawn)->GetPatrolPoints();
+	auto PatrolComponent = ControlledPawn->FindComponentByClass<UPatrolComponent>();
+	if(!ensure(PatrolComponent)) { return EBTNodeResult::Failed; }
+	auto PatrolPoints = PatrolComponent->GetPatrolPoints();
 
 	auto BlackboardComp = OwnerComp.GetBlackboardComponent();
 	auto index = BlackboardComp->GetValueAsInt(IndexKey.SelectedKeyName);

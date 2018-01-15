@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "PatrollingGuard.h"
+#include "PatrolComponent.h"
 
 
-
-
-TArray<AActor*> APatrollingGuard::GetPatrolPoints()
+TArray<AActor*> UPatrolComponent::GetPatrolPoints()
 {
 	return PatrolPointsCPP;
 }
+
