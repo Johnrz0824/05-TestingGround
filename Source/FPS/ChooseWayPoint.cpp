@@ -11,7 +11,9 @@ EBTNodeResult::Type UChooseWayPoint::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	auto AIController = OwnerComp.GetAIOwner();
 	auto ControlledPawn = AIController->GetPawn();
 	auto PatrolComponent = ControlledPawn->FindComponentByClass<UPatrolComponent>();
+	UE_LOG(LogTemp, Warning, TEXT("1"));
 	if(!ensure(PatrolComponent)) { return EBTNodeResult::Failed; }
+	UE_LOG(LogTemp, Warning, TEXT("2"));
 	auto PatrolPoints = PatrolComponent->GetPatrolPoints();
 
 	auto BlackboardComp = OwnerComp.GetBlackboardComponent();
@@ -21,6 +23,7 @@ EBTNodeResult::Type UChooseWayPoint::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 	auto Target = PatrolPoints[index];
 	if (!Target) { return EBTNodeResult::Failed; }
 
+	UE_LOG(LogTemp, Warning, TEXT("3"));
 	BlackboardComp->SetValueAsObject(WayPointKey.SelectedKeyName, Target);
 	return EBTNodeResult::Succeeded;
 
