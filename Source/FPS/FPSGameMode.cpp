@@ -2,7 +2,7 @@
 
 #include "FPSGameMode.h"
 #include "FPSHUD.h"
-#include "FPSCharacter.h"
+#include "Player/FirstPersonCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AFPSGameMode::AFPSGameMode()
