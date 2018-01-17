@@ -16,6 +16,7 @@ private:
 		TArray<AActor*> PatrolPointsCPP;
 
 public:
+	UFUNCTION(BlueprintCallable)
 	TArray<AActor*> GetPatrolPoints();
 	
 };
