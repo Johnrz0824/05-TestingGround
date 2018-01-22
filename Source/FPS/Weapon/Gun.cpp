@@ -22,7 +22,6 @@ AGun::AGun()
 
 	// Create a gun mesh component
 	Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
-	Gun->SetOnlyOwnerSee(true);			// only the owning player will see this mesh
 	Gun->bCastDynamicShadow = false;
 	Gun->CastShadow = false;
 	// Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
@@ -30,7 +29,7 @@ AGun::AGun()
 
 	MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
 	MuzzleLocation->SetupAttachment(Gun);
-	MuzzleLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
+	MuzzleLocation->SetRelativeLocation(FVector(0.2f, 58.f, 11.f));
 
 	// Default offset from the character location for projectiles to spawn
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
@@ -60,7 +59,6 @@ void AGun::OnFire()
 		{
 			const FRotator SpawnRotation = MuzzleLocation->GetComponentRotation();
 			const FVector SpawnLocation = MuzzleLocation->GetComponentLocation();
-
 			//Set Spawn Collision Handling Override
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
@@ -75,10 +73,16 @@ void AGun::OnFire()
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}
-
+	
 	// try and play a firing animation if specified
-	if (FireAnimation != NULL && AnimInstance != NULL)
+	if (FireAnimation != NULL && OwnerAnimInstance != NULL)
 	{
-		AnimInstance->Montage_Play(FireAnimation, 1.f);
+		OwnerAnimInstance->Montage_Play(FireAnimation, 1.f);
 	}
 }
+
+void AGun::SetOwnerAnimInstance(UAnimInstance* Anim)
+{
+	OwnerAnimInstance = Anim;
+}
+

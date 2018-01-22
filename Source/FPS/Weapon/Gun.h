@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Animation/AnimInstance.h"
 #include "Gun.generated.h"
 
 UCLASS()
@@ -39,9 +40,7 @@ public:
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		class UAnimMontage* FireAnimation;
-
-	UPROPERTY(EditAnywhere, Category = Gameplay)
-		UAnimInstance* AnimInstance;
+	UAnimInstance *OwnerAnimInstance;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -50,10 +49,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
-protected:
-	/** Fires a projectile. */
 	void OnFire();
+	void SetOwnerAnimInstance(UAnimInstance* Anim);
+	
 
 
 
