@@ -7,6 +7,7 @@
 #include "FirstPersonCharacter.generated.h"
 
 class UInputComponent;
+class USkeletalMeshComponent;
 class AGun;
 
 UCLASS(config=Game)
