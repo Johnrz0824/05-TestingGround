@@ -39,7 +39,10 @@ void AMannequin::BeginPlay()
 		Gun->SetOwnerAnimInstance(Mesh1P->GetAnimInstance());
 	}
 
-	//Mesh1P->SetHiddenInGame(false, true);
+	if (InputComponent != NULL)
+	{
+		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
+	}
 }
 
 // Called to bind functionality to input
@@ -48,7 +51,7 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void AMannequin::Fire()
+void AMannequin::PullTrigger()
 {
 	Gun->OnFire();
 }
