@@ -26,6 +26,7 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 	class AGun* Gun;
 
+	virtual void UnPossessed() override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

@@ -33,10 +33,15 @@ void AMannequin::BeginPlay()
 	
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
 
-	if (RootComponent)
+	if (IsPlayerControlled())
 	{
 		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 		Gun->SetOwnerAnimInstance(Mesh1P->GetAnimInstance());
+	}
+	else
+	{
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
+		Gun->SetOwnerAnimInstance(GetMesh()->GetAnimInstance());
 	}
 
 	if (InputComponent != NULL)
@@ -54,4 +59,11 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 void AMannequin::PullTrigger()
 {
 	Gun->OnFire();
+}
+
+void AMannequin::UnPossessed()
+{
+	Super::UnPossessed();
+	if(ensure(Gun))
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0"));
 }
