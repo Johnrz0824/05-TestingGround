@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "EngineUtils.h"
 
 // Sets default values
 ATile::ATile()
@@ -80,4 +81,9 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Ro
 	actor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	actor->SetActorRotation(FRotator(0, Rotation, 0));
 	actor->SetActorScale3D(FVector(Scale));
+}
+
+void ATile::SetActorPool(UActorPool* PoolToSet)
+{
+	ActorPool = PoolToSet;
 }
