@@ -25,14 +25,22 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
+	virtual void EndPlay(const EEndPlayReason::Type EndplayReason) override;
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MinExtent;
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector MaxExtent;
+	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
+		FVector NavigationBoundsOffset;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
+	void PositionVavMeshBoundsVolume();
 	bool CanSpawnAtLocation(FVector Location, float Radius, float Scale);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius, float Scale, int maxTry = 1);
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale);
 	UActorPool* ActorPool;
+	AActor* NavMeshBoundsVolume;
 };
