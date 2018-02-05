@@ -50,11 +50,21 @@ public:
 
 private:
 	void PositionVavMeshBoundsVolume();
+
 	bool CanSpawnAtLocation(FVector Location, float Radius, float Scale);
+
 	bool FindEmptyLocation(FVector &OutLocation,float Radius, float Scale, int maxTry = 1);
+
+	template<class T>
+	void RandomlyPlaceActors(TSubclassOf<T> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 300, float MinScale = 1, float MaxScale = 1);
+
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition);
-	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, const FSpawnPosition pos);
+
+	void PlaceActor(TSubclassOf<APawn> ToSpawn, const FSpawnPosition pos);
+
 	UActorPool* ActorPool;
+
 	AActor* NavMeshBoundsVolume;
+
 	TArray<FSpawnPosition> CreateSpawnPositions(int Nums, float Radius, float MinScale, float MaxScale);
 };
