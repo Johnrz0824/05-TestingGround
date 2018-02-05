@@ -38,15 +38,10 @@ void ATile::Tick(float DeltaTime)
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	int count = FMath::RandRange(MinSpawn, MaxSpawn);
-	for (int i = 0; i < count; i++)
+	auto positions = CreateSpawnPositions(count, Radius,MinScale,MaxScale);
+	for (auto& pos : positions)
 	{
-		float sizeScale = FMath::RandRange(MinScale, MaxScale);
-		FVector spawnPoint;
-		if (FindEmptyLocation(spawnPoint, Radius, sizeScale,5))
-		{
-			float randomRotation = FMath::RandRange(-180.f, 180.f);
-			PlaceActor(ToSpawn, spawnPoint, randomRotation, sizeScale);
-		}
+		PlaceActor(ToSpawn, pos);
 	}
 }
 
@@ -81,13 +76,13 @@ bool ATile::FindEmptyLocation(FVector &OutLocation, float Radius, float Scale, i
 	return false;
 }
 
-void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale)
+void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition)
 {
 	auto actor =GetWorld()->SpawnActor<AActor>(ToSpawn);
-	actor->SetActorRelativeLocation(SpawnPoint);
+	actor->SetActorRelativeLocation(SpawnPosition.Location);
 	actor->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-	actor->SetActorRotation(FRotator(0, Rotation, 0));
-	actor->SetActorScale3D(FVector(Scale));
+	actor->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+	actor->SetActorScale3D(FVector(SpawnPosition.Scale));
 }
 
 void ATile::SetActorPool(UActorPool* PoolToSet)
@@ -107,4 +102,20 @@ void ATile::PositionVavMeshBoundsVolume()
 	}
 	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
 	GetWorld()->GetNavigationSystem()->Build();
+}
+
+TArray<FSpawnPosition> ATile::CreateSpawnPositions(int Nums, float Radius, float MinScale, float MaxScale)
+{
+	TArray<FSpawnPosition> arr;
+	for (int i = 0; i < Nums; i++)
+	{
+		FSpawnPosition spawnPosition;
+		spawnPosition.Scale = FMath::RandRange(MinScale, MaxScale);
+		if (FindEmptyLocation(spawnPosition.Location, Radius, spawnPosition.Scale, 5))
+		{
+			spawnPosition.Rotation = FMath::RandRange(-180.f, 180.f);
+			arr.Push(spawnPosition);
+		}
+	}
+	return arr;
 }

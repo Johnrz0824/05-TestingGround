@@ -6,6 +6,15 @@
 #include "GameFramework/Actor.h"
 #include "Tile.generated.h"
 
+USTRUCT()
+struct FSpawnPosition
+{
+	GENERATED_USTRUCT_BODY()
+	FVector Location;
+	float Rotation;
+	float Scale;
+};
+
 class UActorPool;
 UCLASS()
 class FPS_API ATile : public AActor
@@ -40,7 +49,8 @@ private:
 	void PositionVavMeshBoundsVolume();
 	bool CanSpawnAtLocation(FVector Location, float Radius, float Scale);
 	bool FindEmptyLocation(FVector &OutLocation,float Radius, float Scale, int maxTry = 1);
-	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale);
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition);
 	UActorPool* ActorPool;
 	AActor* NavMeshBoundsVolume;
+	TArray<FSpawnPosition> CreateSpawnPositions(int Nums, float Radius, float MinScale, float MaxScale);
 };
