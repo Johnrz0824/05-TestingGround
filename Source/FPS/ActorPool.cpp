@@ -26,6 +26,7 @@ void UActorPool::Return(AActor* ActorToReturn)
 
 void UActorPool::Add(AActor* ActorToAdd)
 {
-	Pool.Push(ActorToAdd);
+	if(ActorToAdd != nullptr)
+		Pool.Push(ActorToAdd);
 }
 
